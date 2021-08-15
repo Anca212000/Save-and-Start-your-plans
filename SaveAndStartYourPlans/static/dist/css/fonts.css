@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "Cabin Sketch";
+  src: url("../../fonts/CabinSketch-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Hashi Regular";
+  src: url("../../fonts/Hashi-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Livvic Bold";
+  src: url("../../fonts/Livvic-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Regave Bold";
+  src: url("../../fonts/RegaveBold.ttf") format("truetype");
+}

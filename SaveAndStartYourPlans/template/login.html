@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "partials/head.html" %}
+    {% block headAttach %} {% endblock %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/login.min.css') }}">
+
+    <title>Login</title>
+
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category == 'error' %}
+      <div style="height:50px;width:100%;background-color:#ff9999;position:relative;text-align:center;color:#b30000;font-size:24px;padding-top:10px;letter-spacing:1px;">
+        <span style="margin-left:-60px;"> {{message}} </span>
+      </div>
+      <!-- <div style="height:50px;width:100%;background-color:#85e085;position:relative;text-align:center;color:#006622;font-size:24px;padding-top:10px;letter-spacing:1px;">
+        <span> {{message}} </span>
+      </div> -->
+      {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+<div class="loginBox" >
+    <h1>LOGIN</h1>
+    <span class="userImage">
+        <img src="{{ url_for('static', filename='images/userCircle.png') }}" alt="User icon" title="User photo" width="80" />
+    </span>
+    <br><br>
+    <form method="POST">
+        <table>
+            <tr>
+              <td colspan="2" style="height:20px;"></td>
+                <!-- <td colspan="2" class="nameOfInput" > USERNAME </td> -->
+            </tr>
+            <tr>
+                <td>
+                    <i class="far fa-user" style="margin-left: -40px;"></i>
+                </td>
+                <td style="padding-right:4%;">
+                    <input type="text" placeholder="USERNAME ..." class="form-login" id="username" name="username" autocomplete="off"/>
+                </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="height:40px;"></td>
+                <!-- <td colspan="2" class="nameOfInput"> PASSWORD </td> -->
+            </tr>
+            <tr>
+                <td>
+                    <i class="fas fa-key" style="margin-left: -40px;"></i>
+                </td>
+                <td style="padding-right:4%;">
+                    <input type="password" placeholder="PASSWORD ..." class="form-login" id="pass" name="pass" autocomplete="off"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="buttonSubmit">
+                    <div class="circleBut">
+                        <input type="submit" value=" > " style="float:right;" />
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                  <br>
+                    <text>Don't have an account yet?
+                        <a href="/sign-up" class="butSignUp" style="text-decoration:none"> Sign Up </a>
+                    </text>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

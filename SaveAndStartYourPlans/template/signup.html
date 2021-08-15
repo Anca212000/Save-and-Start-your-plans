@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "partials/head.html" %}
+        {% block headAttach %} {% endblock %}
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/login.min.css') }}">
+
+        <title>Sign Up</title>
+
+    </head>
+    <body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'error' %}
+        <div style="height:50px;width:100%;background-color:#ff9999;position:relative;text-align:center;color:#b30000;font-size:24px;padding-top:10px;letter-spacing:1px;">
+          <span style="margin-left:-60px;"> {{message}} </span>
+        </div>
+        {% else %}
+        <div style="height:50px;width:100%;background-color:#85e085;position:relative;text-align:center;color:#006622;font-size:24px;padding-top:10px;letter-spacing:1px;">
+          <span style="margin-left:-60px;"> {{message}} </span>
+        </div>
+        {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+
+        <div class="loginBox">
+            <h1>SIGN UP</h1>
+            <form method="POST">
+                <table>
+                    <tr>
+                        <td colspan="2" class="nameOfInput" style="letter-spacing:1px;">ENTER A USERNAME: </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="far fa-user"></i>
+                        </td>
+                        <td>
+                            <input type="text" class="form-inp" id="username" name="username" autocomplete="off"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="nameOfInput" style="padding-left:60px;">ENTER YOUR EMAIL ADDRESS: </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="far fa-envelope"></i>
+                        </td>
+                        <td>
+                            <input type="email" class="form-inp" id="user_email" name="user_email" autocomplete="off"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="nameOfInput" style="letter-spacing:1px;">ENTER A PASSWORD: </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="fas fa-key"></i>
+                        </td>
+                        <td>
+                            <input type="password" class="form-inp" id="pass" name="pass" autocomplete="off"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="nameOfInput" style="letter-spacing:1px;">CONFIRM PASSWORD: </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="fas fa-key"></i>
+                        </td>
+                        <td>
+                            <input type="password" class="form-inp" id="pass_confirm" name="pass_confirm" autocomplete="off"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="buttonSubmit">
+                            <div class="circleBut">
+                                <input type="submit" value=">" style="float:right;" />
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

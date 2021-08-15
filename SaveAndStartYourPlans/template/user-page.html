@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "partials/head.html" %}
+        {% block headAttach %} {% endblock %}
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/user-page.min.css') }}" type="text/css">
+
+        <title>Save & Start Your Plans</title>
+
+        <style>
+        /* LOGOUT BUTTON */
+        .userSettings {
+          position:absolute;
+          right:0;
+          margin-right:5px;
+          padding:5px;
+          cursor:pointer;
+          background-color:white;
+          border:1px solid lightgray;
+          border-radius:10px;
+          box-shadow:2px 2px 4px gray;
+          opacity:0.7;
+        }
+        .userSettings a {
+          text-decoration:none;
+          color:rgb(21, 64, 6);
+          font-family:'Hashi Regular';
+          letter-spacing:1px;
+          text-shadow: 0.5px 0.2px 1px white,-0.1px -0.1px 1px white;
+        }
+        .userSettings a i {
+          color:rgb(21, 64, 6);
+          font-size:2.5rem;
+          vertical-align:middle;
+          margin-right:10px;
+        }
+        .userSettings:hover {
+          background-color:rgb(56, 171, 17);
+          border:1px solid rgb(56, 171, 17);
+          color:white;
+          transition:.3s;
+          opacity:1;
+        }
+        input[name="listTasks"] {
+          position:relative;
+          margin-right: 10px;
+          margin-left: 5px;
+          left:0;
+        }
+        </style>
+
+    </head>
+    <body>
+      <script>
+      $(document).ready(function () {
+        $('#cancelMessFlash').on('click',function(){
+          $("#messFlash").slideUp("slow");
+        });
+      });
+      </script>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'error' %}
+          <div id="messFlash" style="height:50px;width:100%;background-color:#ff9999;position:relative;text-align:center;color:#b30000;font-size:24px;padding-top:10px;letter-spacing:1px;font-family:'Cabin Sketch';">
+            <span> {{message}} </span>
+            <span id="cancelMessFlash" style="float:right;margin-right:10px;cursor:pointer;"><i class="fas fa-times"></i></span>
+          </div>
+          {% else %}
+          <div id="messFlash" style="height:50px;width:100%;background-color:#85e085;position:relative;text-align:center;color:#006622;font-size:24px;padding-top:10px;letter-spacing:1px;font-family:'Cabin Sketch';">
+            <span> {{message}} </span>
+            <span id="cancelMessFlash" style="float:right;margin-right:10px;cursor:pointer;"><i class="fas fa-times"></i></span>
+          </div>
+          {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+        <header>
+            <h1 id="titleDate"></h1>
+            <i class="fas fa-pencil-alt"></i>
+
+            <div class="userSettings" >
+              {% if current_user.is_authenticated %}
+              <a href="/logout"><i class="fas fa-user-circle"></i>LOGOUT</a>
+              {% endif %}
+            </div>
+        </header>
+        <script>
+            var date = new Date();
+            var dayPr = date.getDate() - 1;
+            var dayCur = date.getDate();
+            var dayN = date.getDate() + 1;
+        </script>
+        <nav>
+            <ul>
+                <li><button id="butDayBack" onclick="changeDayPrevious()"><i class="fas fa-chevron-circle-left"></i></button></li>
+                <script>
+                    if (dayPr == 0) {
+                        document.getElementById("dayPrev").style.visibility = "hidden"
+                    }
+                    if (dayN == (new Date(date.getYear(), date.getMonth() + 1, 0)).getDate() + 1) {
+                        document.getElementById("dayNext").style.visibility = "hidden"
+                    }
+                </script>
+                <li class="pgNum"><span id="dayPrev">
+                    <script>
+                        document.write(dayPr);
+                    </script>
+                </span></li>
+                <li class="pgNum"><span id="dayCurrent">
+                    <script>
+                        document.write(dayCur);
+                    </script>
+                </span></li>
+                <li class="pgNum"><span id="dayNext">
+                    <script>
+                        document.write(dayN);
+                    </script>
+                </span></li>
+                <li><button id="butDayNext" onclick="changeDayNext()"><i class="fas fa-chevron-circle-right"></i></button></li>
+            </ul>
+        </nav>
+
+        <div style="width:350px;height:350px;margin:40px auto">
+            <canvas id="circleChart" ></canvas>
+        </div>
+
+        <div class="buttonAddPlan">
+            <text>New task</text><br>
+            <button id="plusTask">
+                <i class="fas fa-plus-circle"></i>
+            </button>
+        </div>
+
+        <div class="toggleAddTask" style="display:none;">
+            <img src="{{ url_for('static', filename='images/eventCal.png') }}" alt="new task" />
+            <p id="createPl">CREATE PLAN</p>
+
+            <script>
+            $(document).ready(function () {
+               $('#selPlan').click(function () {
+                 $('.showExamples').removeAttr('disabled');
+                 $('.showExamples').css('opacity', '1');
+                 $('.showExamples ul li').css('pointer-events', 'auto');
+                 $('#textNamePlan').attr('disabled', 'disabled');
+                 $('#textNamePlan').css('opacity', '0.5');
+                 $('#textNamePlan').css('pointer-events', 'none');
+               });
+               $('#namePlan').click(function () {
+                  $('#textNamePlan').removeAttr('disabled');
+                  $('#textNamePlan').css('opacity', '1');
+                  $('#textNamePlan').css('pointer-events', 'auto');
+                  $('.showExamples').attr('disabled', 'disabled');
+                  $('.showExamples').css('opacity', '0.5');
+                  $('.showExamples ul li').css('pointer-events', 'none');
+               });
+            });
+            </script>
+
+            <form method="POST">
+                <input type="radio" id="namePlan" name="plan" value="addNamePlan">
+                <label for="namePlan">Name of your new plan
+                    <input type="text" id="textNamePlan" name="textNamePlan" autocomplete="off"/>
+                </label><br>
+                <input type="radio" id="selPlan" name="plan" value="selectedPlan">
+                <label for="selPlan">Or choose a plan from the examples listed below:
+                    <script>
+                        $(document).ready(function () {
+                            $oldthis = 0
+                           $(".showExamples li").click(function () {
+                            $($oldthis).css("background-color","#104747");
+                            $(this).css("background-color","rgba(26, 155, 100, 0.959)");
+                            $oldthis = this
+                            });
+                        });
+                    </script>
+                    <div class="showExamples">
+                        <ul><!-- <label for="listTasks1" style="padding:100px 70px;"> -->
+                            <li><input type="radio" id="listTasks1" name="listTasks" value="Reading a book"><img src="{{ url_for('static', filename='images/book.png') }}" /> Reading a book </li>
+                            <li><input type="radio" id="listTasks2" name="listTasks" value="Go to school"><img src="{{ url_for('static', filename='images/school.png') }}" /> Go to school </li>
+                            <li><input type="radio" id="listTasks3" name="listTasks" value="Do the shopping"><img src="{{ url_for('static', filename='images/shop.png') }}" /> Do the shopping </li>
+                            <li><input type="radio" id="listTasks4" name="listTasks" value="Go to work"><img src="{{ url_for('static', filename='images/work.png') }}" /> Go to work </li>
+                            <li><input type="radio" id="listTasks5" name="listTasks" value="Teeth care"><img src="{{ url_for('static', filename='images/teeth.png') }}" /> Teeth care </li>
+                            <li><input type="radio" id="listTasks6" name="listTasks" value="Have breakfast"><img src="{{ url_for('static', filename='images/eat.png') }}" /> Have breakfast </li>
+                            <li><input type="radio" id="listTasks7" name="listTasks" value="Drink coffee"><img src="{{ url_for('static', filename='images/coffee.png') }}" /> Drink coffee </li>
+                            <li><input type="radio" id="listTasks8" name="listTasks" value="Go for a walk"><img src="{{ url_for('static', filename='images/walk.png') }}" /> Go for a walk </li>
+                            <li><input type="radio" id="listTasks9" name="listTasks" value="Time with friends"><img src="{{ url_for('static', filename='images/friends.png') }}" /> Time with friends </li>
+                            <li><input type="radio" id="listTasks10" name="listTasks" value="Time with family"><img src="{{ url_for('static', filename='images/family.png') }}" /> Time with family </li>
+                            <li><input type="radio" id="listTasks11" name="listTasks" value="Workout"><img src="{{ url_for('static', filename='images/workout.png') }}" /> Workout </li>
+                            <li><input type="radio" id="listTasks12" name="listTasks" value="Water plants"><img src="{{ url_for('static', filename='images/plants.png') }}" /> Water plants </li>
+                            <li><input type="radio" id="listTasks13" name="listTasks" value="Paint or draw something"><img src="{{ url_for('static', filename='images/paint.png') }}" /> Paint or draw something </li>
+                            <li><input type="radio" id="listTasks14" name="listTasks" value="Play guitar"><img src="{{ url_for('static', filename='images/guitar.png') }}" /> Play guitar </li>
+                            <li><input type="radio" id="listTasks15" name="listTasks" value="Have a picnic"><img src="{{ url_for('static', filename='images/picnic.png') }}" /> Have a picnic </li>
+                            <li><input type="radio" id="listTasks16" name="listTasks" value="A trip to the mountains"><img src="{{ url_for('static', filename='images/mountain.png') }}" /> A trip to the mountains </li>
+                            <li><input type="radio" id="listTasks17" name="listTasks" value="Go to the beach"><img src="{{ url_for('static', filename='images/beach.png') }}" /> Go to the beach </li>
+                        </ul>
+                    </div>
+                </label>
+
+                <div class="timePlan">
+                    <img src="{{ url_for('static', filename='images/clocktime.png') }}" width="80" height="80" style="vertical-align:middle;margin:10 10 0 0;" />
+                    <label for="timeS">Start time: </label>
+                    <input type="time" id="startTime" name="timeS"><br>
+                    <img src="{{ url_for('static', filename='images/clocktime.png') }}" width="80" height="80" style="vertical-align:middle;margin:10 10 0 0;" />
+                    <label for="timeE">End time: </label>
+                    <input type="time" id="endTime" name="timeE"><br>
+                </div>
+                <br>
+
+                <label>Choose when the plan should occur: </label><br>
+                <div id="buttTypePlans">
+                    <span id="repetitively">REPETITIVELY</span>
+                    <span id="onetime">ONE TIME</span>
+                    <span id="specificdays">SPECIFIC DAYS</span>
+                </div>
+
+                <div class="repetType" style="display:none;">
+                    <input type="checkbox" id="monday" name="nameDayWeek" value="monday">
+                    <label for="monday"> Monday</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="tuesday" name="nameDayWeek" value="tuesday">
+                    <label for="tuesday">Tuesday</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="wednesday" name="nameDayWeek" value="wednesday">
+                    <label for="wednesday">Wednesday</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="thursday" name="nameDayWeek" value="thursday">
+                    <label for="thursday">Thursday</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="friday" name="nameDayWeek" value="friday">
+                    <label for="friday">Friday</label><br>
+                    <input type="checkbox" id="saturday" name="nameDayWeek" value="saturday" style="margin-left:32%;">
+                    <label for="saturday">Saturday</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="sunday" name="nameDayWeek" value="sunday">
+                    <label for="sunday">Sunday</label>
+
+                    <!-- <details> -->
+                    <summary style="font-size: 15px;">ⓘ The plan will appear only in these selected days.</summary>
+                        <!-- <summary>Details</summary>
+                        <p>ⓘ The plan will appear only in these selected days.</p> -->
+                    <!-- </details> -->
+                </div>
+
+                <div class="onetimeType"  style="display:none;">
+                    <label for="dateOneTime" >Choose date: </label>
+                    <input id="dateOneTime" type="date" name="date"/>
+                </div>
+
+                <div class="specificdaysType" style="display:none;">
+                    <summary style="font-size: 15px;">ⓘ The plan will appear only in these selected dates.</summary><br>
+                    <span id="buttSpecDays" onclick="showDatesSpDays()">Add more <i class="fas fa-plus-square" style="vertical-align:middle;"></i></span>
+                    <br><br>
+                    <ul id="listDates" style="list-style: none;">
+                        <li><label for="date1">Date 1: </label><input type="date" id="date1" name="date1" ></li>
+                        <li><label for="date2">Date 2: </label><input type="date" id="date2" name="date2" ></li>
+                    </ul>
+                </div>
+
+                <button id="buttSaveTask" type="submit" name="buttSaveTask" value="SAVE" ><i class="fas fa-check"></i> SAVE</button>
+                <button id="buttCancelTask" type="submit" name="buttCancelTask" value="CANCEL" ><i class="fas fa-times"></i> CANCEL</button>
+                <br><br><br>
+
+            </form>
+        </div>
+
+        <!-- <div class="deleteMessage" style="display:none;">
+            <text>Are you sure you want to delete this task ?</text><br>
+            
+            <button id="no">NO</button>
+
+            <form method="POST">
+                <button id="yes" type="submit" value="x" name="delete_task">YES</button>
+            </form>
+        </div> -->
+
+        <content>
+            <aside>
+                <i class="fas fa-tasks"></i>
+                <i class="fas fa-tasks"></i>
+            </aside>
+
+            <section>                         
+                  <!-- <div class="row" id="firstRow"> -->
+                  <!-- <div class="row" id="lastRow"> -->
+                {% if all_user_tasks %}
+                {% for items in range(0, all_user_tasks|length) %}
+                <div class="row">
+                    <div class="totalHourTask"> <!--row1" >-->
+                        <span class="nbHours" style="font-size:34px;">
+                            {{ all_user_tasks[items][0] }}
+                        </span>
+                        hours and minutes per day
+                    </div>
+                    <div class="descrTask">
+                        <div class="titleTask">
+                            <img src="{{ url_for('static', filename='images/personTask.png') }}" width="50" height="auto"/>
+                            <text>
+                              {{ all_user_tasks[items][3] }}
+                            </text>
+                            <span id="editTask">
+                                <form method="POST">
+                                    <button type="submit" name="delete_yes" value="{{ all_user_tasks[items][3] }}" style="border:none;margin-top:-50px;background-color:transparent;" >Delete <i class="fas fa-trash"></i></button>
+                                </form>
+                            </span>
+                        </div>
+                        <div class="showHours">
+                            <ul>
+                                <li>
+                                    {{ all_user_tasks[items][1] }} - {{ all_user_tasks[items][2] }}
+                                    <i class="fas fa-check-circle"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                    <span style="margin:10% auto;align-items: center;display:grid;">
+                        <text style="font-size:34px;font-family:'Cabin Sketch';padding:0 10px;">Sorry, no plans for today ... </text>
+                        <img src="{{ url_for('static', filename='images/sad.png') }}" width="100" height="auto" style="margin:0 auto;"/>
+                    </span>
+                {% endif %}
+
+            </section>
+        </content>
+
+        <!-- DON'T DELETE -->
+        <!-- <div class="rateTasks">
+            <div class="progressAllTasks">
+                <text>The total number of days you have completed all your tasks in.</text>
+                <span style="text-align:center;margin-top:25px;">
+                    <text id="progTotalNb"> 0 days</text>
+                </span>
+            </div>
+            <div class="currStr">
+                <text style="color:azure;">Current streak.</text>
+                <br><br>
+                <span style="text-align:center;margin-left:50px;color:azure;">
+                    <text id="progTotalNb"> 0 days</text>
+                </span>
+            </div>
+            <div class="tasksFinPerDay">
+                <text style="color:azure;">Total tasks finished per day.</text>
+                <br><br>
+                <span style="text-align:center;margin-left:50px;color:azure;">
+                    <text id="progTotalNb"> 0 days</text>
+                </span>
+            </div>
+        </div> -->
+
+        <footer>
+            Save & Start Your Plans
+        </footer>
+
+        <script>
+            var countSD = 3;
+
+            function showDatesSpDays() {
+                var text = document.createElement("li");
+                var inputLab = document.createElement("label");
+                text.appendChild(inputLab);
+                text.appendChild(document.createTextNode("Date " + countSD + ": "));
+                var inputDate = document.createElement("input");
+                inputDate.type = "date";
+                inputDate.className = "date" + countSD;
+                inputDate.name = "date" + countSD;
+                text.appendChild(inputDate);
+                document.getElementById("listDates").appendChild(text);
+                countSD++;
+            }
+        </script>
+        {% include "partials/scripts.html" %}
+        {% block scriptsJS %} {% endblock %}
+    </body>
+</html>

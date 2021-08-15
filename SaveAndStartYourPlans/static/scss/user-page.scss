@@ -1,0 +1,657 @@
+@import "fonts", "colors";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@function setColor($prop, $colType) {
+  $prop: map-get($colors-todo-app, $colType);
+  @return $prop;
+}
+
+@function setBackground($prop, $colType) {
+  $prop: map-get($colors-todo-app, $colType);
+  @return $prop;
+}
+
+@function setBackgroundTasks($prop, $colType) {
+  $prop: map-get($colors-tasks, $colType);
+  @return $prop;
+}
+
+@mixin valuesRateBoxes {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 80px 16px 80px 16px;
+  border: 0.5px solid setColor("color", "shadow");
+  box-shadow: 5px 5px 30px setColor("color", "shadow");
+}
+
+body {
+  background-color: rgb(85, 74, 69);
+  background-image: url("../../images/grey-bck.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+header {
+  //   background-color: setBackground("background-color", "c");
+  display: flex;
+  padding: 20px;
+  //   border-bottom: 15px dotted setColor("color", "a");
+
+  & h1 {
+    font-family: "Cabin Sketch";
+    font-size: 5vw;
+    color: setColor("color", "a");
+  }
+
+  & i {
+    font-size: 4.2vw;
+    padding-left: 5px;
+    color: setColor("color", "a");
+  }
+}
+
+nav {
+  width: auto;
+  height: 100px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 40px 0;
+  display: flex;
+
+  & ul {
+    position: relative;
+    display: flex;
+    padding: 10px 20px;
+
+    & li {
+      list-style: none;
+      line-height: 50px;
+      margin: 0 15px;
+    }
+  }
+
+  & span {
+    font-family: "Regave Bold";
+    // color: #221a15;
+    color: rgb(0, 54, 16);
+  }
+
+  & #dayPrev,
+  & #dayCurrent,
+  & #dayNext {
+    background-color: setBackground("background-color", "buttonDay");
+    border: 8px solid green;
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px #80ff95;
+  }
+
+  & #dayCurrent {
+    padding: 26px 38px;
+    // width: 90px;
+    // height: 90px;
+    font-size: 36px;
+  }
+
+  & #dayPrev,
+  & #dayNext {
+    padding: 12px 16px;
+    font-size: 22px;
+    vertical-align: middle;
+    background-color: green;
+    opacity: 0.8;
+
+    // &:hover {
+    //   opacity: 1;
+    //   box-shadow: 1px 1px 10px #80ff95b7;
+    //   transition: 0.2s ease-in-out;
+    // }
+  }
+
+  & #butDayBack,
+  & #butDayNext {
+    background-color: transparent;
+    border: none;
+    font-size: 4rem;
+    color: setColor("color", "butNextBack");
+    margin-top: -5px;
+
+    &:hover {
+      color: orange;
+      transition: 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    & i:hover {
+      text-shadow: 2px 2px 10px setColor("color", "shadow");
+    }
+  }
+}
+
+.buttonAddPlan {
+  margin: 40px auto;
+  display: grid;
+  align-items: center;
+  width: auto;
+
+  & text {
+    font-family: "Hashi Regular";
+    color: azure;
+    text-shadow: 1px 1px 2px setColor("color", "j"),
+      -1px -1px 2px setColor("color", "shadow");
+    font-size: 30px;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+
+  & #plusTask {
+    background-color: rgb(133, 64, 0);
+    border: none;
+    border-radius: 50%;
+    width: 5rem;
+    margin: 0 auto;
+
+    &:hover {
+      background-color: setBackground("background-color", "j");
+      transition: 0.5s ease-in-out;
+      cursor: pointer;
+      box-shadow: 0 0 10px 1px rgb(255, 81, 0);
+    }
+
+    & i {
+      font-size: 5rem;
+      color: setColor("color", "j");
+
+      &:hover {
+        color: rgb(133, 64, 0);
+        transition: 0.5s ease-in-out;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.toggleAddTask {
+  background-color: setBackground("background-color", "b");
+  background-image: url("../../images/newTaskbck.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+  border: 0.5px solid rgb(163, 163, 163);
+  box-shadow: 2px 2px 10px rgba(255, 81, 0, 0.308);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  font-family: "Livvic Bold";
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.623);
+  letter-spacing: 1px;
+
+  #createPl {
+    font-family: "Hashi Regular";
+    font-size: 26px;
+    letter-spacing: 3px;
+    margin-left: 20px;
+    color: azure;
+    text-shadow: 1px 1px 2px grey;
+  }
+
+  img {
+    width: 70px;
+    height: auto;
+    vertical-align: middle;
+  }
+
+  img,
+  #createPl {
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+
+  & form {
+    & #textNamePlan {
+      width: 100%;
+      padding: 14px 5px 2px 2px;
+      margin: 5px 0;
+      border: 1px solid setColor("color", "shadow");
+      border-radius: 10px;
+      background-color: setColor("color", "shadow");
+      font-family: "Livvic Bold";
+      font-size: 18px;
+      font-style: italic;
+      color: rgb(61, 6, 6);
+
+      &:focus {
+        border-color: rgb(61, 6, 6);
+      }
+    }
+    & .showExamples {
+      width: 400px;
+      height: 400px;
+      overflow: auto;
+      margin: 10px auto;
+      background-color: setColor("color", "shadow");
+      border-radius: 10px;
+      box-shadow: 0px 0px 8px setColor("color", "shadow");
+
+      & ul {
+        list-style: none;
+        text-align: justify;
+
+        & li {
+          & img {
+            margin: 10px;
+            vertical-align: middle;
+            width: 40px;
+            height: auto;
+          }
+          padding: 5px;
+          background-color: setColor("color", "k");
+          border-bottom: 1px solid setColor("color", "shadow");
+          letter-spacing: 1px;
+          color: azure;
+
+          &:hover {
+            background-color: rgba(26, 155, 155, 0.959);
+            cursor: pointer;
+            transition: 0.3s linear;
+          }
+        }
+      }
+    }
+
+    & .timePlan {
+      margin: 10px 0 20px 0;
+      display: inline-flex;
+      align-items: center;
+      float: center;
+      width: 100%;
+
+      & label {
+        margin: 5px 10px 5px 0;
+      }
+
+      & #startTime {
+        margin-right: 10px;
+      }
+
+      & input[type="time"] {
+        background-color: setColor("color", "shadow");
+        border-radius: 10px;
+        vertical-align: middle;
+        border: none;
+        height: 30px;
+      }
+    }
+
+    & #buttTypePlans {
+      align-content: center;
+      width: auto;
+      position: relative;
+      margin: 10px 0;
+      text-align: center;
+
+      & span {
+        display: inline-flex;
+      }
+
+      & #repetitively,
+      & #onetime,
+      & #specificdays {
+        background-color: setBackground("background-color", "k");
+        color: azure;
+        letter-spacing: 2px;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px setColor("color", "shadow");
+
+        &:hover {
+          background-color: setBackground("background-color", "j");
+          box-shadow: 2px 2px 15px setColor("color", "shadow");
+          color: setColor("color", "k");
+          cursor: pointer;
+          transition: 0.1s ease-in;
+        }
+      }
+    }
+
+    & .repetType {
+      padding: 10px;
+      width: 100%;
+      height: auto;
+
+      & label,
+      & input {
+        display: inline-flex;
+        padding: 5px;
+      }
+
+      & summary {
+        padding: 10px 0;
+      }
+    }
+
+    & .onetimeType {
+      padding: 10px;
+
+      & label {
+        padding-right: 10px;
+      }
+    }
+
+    & .specificdaysType {
+      padding: 10px;
+
+      & #buttSpecDays {
+        font-size: 22px;
+
+        &:hover {
+          color: setColor("color", "j");
+          transition: 0.2s ease-in-out;
+          cursor: pointer;
+        }
+      }
+
+      & ul {
+        margin: 0 auto;
+        width: 400px;
+        height: auto;
+        max-height: 200px;
+        overflow: auto;
+        display: grid;
+        text-align: center;
+
+        & li {
+          padding: 10px;
+        }
+      }
+    }
+
+    & #buttSaveTask,
+    & #buttCancelTask {
+      float: right;
+      padding: 15px;
+      margin: 10px;
+      background-color: setBackground("background-color", "k");
+      border-radius: 50px;
+      border: 3px solid rgba(6, 39, 39, 0.966);
+      font-family: "Hashi Regular";
+      font-size: 16px;
+      color: azure;
+      letter-spacing: 1px;
+      opacity: 0.8;
+
+      &:hover {
+        background-color: seagreen;
+        cursor: pointer;
+        border-color: beige;
+        opacity: 1;
+        transition: 0.2s ease-in-out;
+      }
+    }
+  }
+}
+
+aside {
+  height: 100%;
+  width: 20%;
+  display: grid;
+
+  & i {
+    font-size: 8rem;
+    color: setColor("color", "a");
+    margin: 0 auto;
+    float: right;
+  }
+}
+
+content {
+  display: flex;
+
+  & section {
+    color: setColor("color", "f");
+    width: 60%;
+    min-height: 400px;
+    height: 100%;
+    border: 10px solid setColor("color", "d");
+    box-shadow: 0px 0px 12px setColor("color", "shadow");
+    border-radius: 20px;
+    background-image: url("../../images/white-wall.jpg");
+    background-size: cover;
+    display: grid;
+    padding: 0;
+    margin: 0;
+
+    & .row {
+      display: flex;
+      padding: 0;
+      margin: 0;
+      border-bottom: 1px solid setColor("color", "shadow");
+      box-shadow: 0 2px 5px setColor("color", "shadow");
+
+      & .totalHourTask,
+      & .descrTask {
+        padding: 20px;
+      }
+
+      & .totalHourTask {
+        // background-color: setBackgroundTasks("background-color", "c1");
+        background-color: transparent;
+        width: 15%;
+        font-family: "Hashi Regular";
+        font-size: 20px;
+        text-align: center;
+
+        & .nbHours {
+          font-family: "Livvic Bold";
+          font-size: 34px;
+          letter-spacing: 2px;
+        }
+      }
+
+      & .descrTask {
+        font-family: "Hashi Regular";
+        font-size: 22px;
+        width: 100%;
+
+        & img {
+          vertical-align: middle;
+        }
+
+        & text {
+          text-transform: uppercase;
+          margin-left: 20px;
+          letter-spacing: 1px;
+        }
+
+        & .titleTask {
+          & #editTask button {
+            position: relative;
+            top:0;
+            float: right;
+            color: darkred;
+            text-shadow: 2px 2px 10px rgb(99, 98, 98),
+              -2px -2px 2px setColor("color", "shadow");
+            font-family: "Cabin Sketch";
+            font-size: 26px;
+
+            & i {
+              font-size: 1.5rem;
+            }
+
+            &:hover {
+              color: rgb(196, 31, 31);
+              text-shadow: 1px 1px 8px rgba(139, 0, 0, 0.452);
+              cursor: pointer;
+            }
+          }
+        }
+
+        & .showHours {
+          padding: 10px;
+
+          & ul {
+            list-style: none;
+
+            & li {
+              background-color: setBackground("background-color", "a");
+              margin-bottom: 10px;
+              padding: 10px;
+              border: 3px solid setColor("color", "shadow");
+              border-radius: 10px;
+              color: setColor("color", "h");
+
+              &:hover {
+                background-color: rgb(235, 217, 208);
+                transition: 0.5s linear;
+              }
+
+              & i {
+                float: right;
+                font-size: 2.8rem;
+                vertical-align: middle;
+                margin-top: -9px;
+                color: setColor("color", "g");
+
+                &:hover {
+                  color: setColor("color", "check");
+                  transition: 0.2s ease-in-out;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    & #firstRow {
+      & .totalHourTask {
+        border-radius: 10px 0 0 0;
+        margin-top: -0.3px;
+      }
+    }
+
+    & #lastRow {
+      border-bottom: none;
+      & .totalHourTask {
+        border-radius: 0 0 0 10px;
+        margin-bottom: -0.5px;
+      }
+    }
+  }
+}
+
+.rateTasks {
+  width: 100%;
+  height: auto;
+  align-content: center;
+  display: flexbox;
+  margin: 0 auto;
+  text-align: center;
+  font-family: "Livvic Bold";
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  color: setColor("color", "f");
+
+  & .progressAllTasks {
+    width: 50%;
+    height: auto;
+    margin: 40px auto;
+    background-image: url("../../images/gradient2.jpg");
+    display: grid;
+    @include valuesRateBoxes;
+  }
+
+  & .currStr,
+  & .tasksFinPerDay {
+    display: inline-block;
+    width: 30%;
+    height: auto;
+    margin: 10px 20px;
+  }
+
+  & .progressAllTasks,
+  & .currStr,
+  & .tasksFinPerDay {
+    padding: 50px;
+    text-align: justify;
+
+    & #progTotalNb {
+      font-family: "Hashi Regular";
+      font-size: 54px;
+      text-shadow: 2px 2px 2px setColor("color", "shadow"),
+        -1px -1px 1px setColor("color", "shadow");
+    }
+  }
+
+  & .currStr {
+    background-image: url("../../images/background.jpg");
+    @include valuesRateBoxes;
+  }
+
+  & .tasksFinPerDay {
+    background-image: url("../../images/background.jpg");
+    @include valuesRateBoxes;
+  }
+}
+
+.deleteMessage {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+  text-align: center;
+  color: setColor("color", "f");
+  text-shadow: 1px 1px 1px rgba(240, 255, 255, 0.616),
+    -1px -1px 1px rgba(240, 255, 255, 0.384);
+  font-family: "Hashi Regular";
+  font-size: 22px;
+  letter-spacing: 1px;
+
+  & button {
+    display: inline;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    background-color: setColor("color", "f");
+    padding: 20px 20px;
+    color: azure;
+    border-radius: 20%;
+    font-size: 18px;
+    font-family: "Hashi Regular";
+    border: none;
+    letter-spacing: 2px;
+    box-shadow: 2px 2px 2px setColor("color", "shadow");
+
+    &:hover {
+      background-color: setBackground("background-color", "j");
+      cursor: pointer;
+      box-shadow: 2px 2px 2px setColor("color", "shadow"),
+        -2px -2px 2px setColor("color", "shadow");
+    }
+  }
+}
+
+footer {
+  text-align: center;
+  width: 100%;
+  height: 60px;
+  padding: 20px 0 10px 0;
+  margin: 80px 0 0 0;
+  border-top: 1px solid setColor("color", "shadow");
+  background-color: rgba(160, 81, 45, 0.116);
+  font-family: "Livvic Bold";
+  color: rgba(61, 7, 7, 0.63);
+  letter-spacing: 1px;
+}

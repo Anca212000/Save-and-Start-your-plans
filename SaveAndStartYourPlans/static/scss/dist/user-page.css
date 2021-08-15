@@ -1,0 +1,555 @@
+@font-face {
+  font-family: "Cabin Sketch";
+  src: url("../../fonts/CabinSketch-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Hashi Regular";
+  src: url("../../fonts/Hashi-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Livvic Bold";
+  src: url("../../fonts/Livvic-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Regave Bold";
+  src: url("../../fonts/RegaveBold.ttf") format("truetype");
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #554a45;
+  background-image: url("../../images/grey-bck.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+header {
+  display: flex;
+  padding: 20px;
+}
+header h1 {
+  font-family: "Cabin Sketch";
+  font-size: 5vw;
+  color: #dfe0df;
+}
+header i {
+  font-size: 4.2vw;
+  padding-left: 5px;
+  color: #dfe0df;
+}
+
+nav {
+  width: auto;
+  height: 100px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 40px 0;
+  display: flex;
+}
+nav ul {
+  position: relative;
+  display: flex;
+  padding: 10px 20px;
+}
+nav ul li {
+  list-style: none;
+  line-height: 50px;
+  margin: 0 15px;
+}
+nav span {
+  font-family: "Regave Bold";
+  color: #003610;
+}
+nav #dayPrev, nav #dayCurrent, nav #dayNext {
+  background-color: #298516;
+  border: 8px solid green;
+  border-radius: 50%;
+  box-shadow: 1px 1px 5px #80ff95;
+}
+nav #dayCurrent {
+  padding: 26px 38px;
+  font-size: 36px;
+}
+nav #dayPrev, nav #dayNext {
+  padding: 12px 16px;
+  font-size: 22px;
+  vertical-align: middle;
+  background-color: green;
+  opacity: 0.8;
+}
+nav #butDayBack, nav #butDayNext {
+  background-color: transparent;
+  border: none;
+  font-size: 4rem;
+  color: #df7c00;
+  margin-top: -5px;
+}
+nav #butDayBack:hover, nav #butDayNext:hover {
+  color: orange;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+nav #butDayBack i:hover, nav #butDayNext i:hover {
+  text-shadow: 2px 2px 10px #8f8c8a48;
+}
+
+.buttonAddPlan {
+  margin: 40px auto;
+  display: grid;
+  align-items: center;
+  width: auto;
+}
+.buttonAddPlan text {
+  font-family: "Hashi Regular";
+  color: azure;
+  text-shadow: 1px 1px 2px #ff5100, -1px -1px 2px #8f8c8a48;
+  font-size: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+}
+.buttonAddPlan #plusTask {
+  background-color: #854000;
+  border: none;
+  border-radius: 50%;
+  width: 5rem;
+  margin: 0 auto;
+}
+.buttonAddPlan #plusTask:hover {
+  background-color: #ff5100;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 0 10px 1px #ff5100;
+}
+.buttonAddPlan #plusTask i {
+  font-size: 5rem;
+  color: #ff5100;
+}
+.buttonAddPlan #plusTask i:hover {
+  color: #854000;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+.toggleAddTask {
+  background-color: #baa89b;
+  background-image: url("../../images/newTaskbck.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+  border: 0.5px solid #a3a3a3;
+  box-shadow: 2px 2px 10px rgba(255, 81, 0, 0.308);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  font-family: "Livvic Bold";
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.623);
+  letter-spacing: 1px;
+}
+.toggleAddTask #createPl {
+  font-family: "Hashi Regular";
+  font-size: 26px;
+  letter-spacing: 3px;
+  margin-left: 20px;
+  color: azure;
+  text-shadow: 1px 1px 2px grey;
+}
+.toggleAddTask img {
+  width: 70px;
+  height: auto;
+  vertical-align: middle;
+}
+.toggleAddTask img,
+.toggleAddTask #createPl {
+  display: inline-flex;
+  margin-bottom: 20px;
+}
+.toggleAddTask form #textNamePlan {
+  width: 100%;
+  padding: 14px 5px 2px 2px;
+  margin: 5px 0;
+  border: 1px solid #8f8c8a48;
+  border-radius: 10px;
+  background-color: #8f8c8a48;
+  font-family: "Livvic Bold";
+  font-size: 18px;
+  font-style: italic;
+  color: #3d0606;
+}
+.toggleAddTask form #textNamePlan:focus {
+  border-color: #3d0606;
+}
+.toggleAddTask form .showExamples {
+  width: 400px;
+  height: 400px;
+  overflow: auto;
+  margin: 10px auto;
+  background-color: #8f8c8a48;
+  border-radius: 10px;
+  box-shadow: 0px 0px 8px #8f8c8a48;
+}
+.toggleAddTask form .showExamples ul {
+  list-style: none;
+  text-align: justify;
+}
+.toggleAddTask form .showExamples ul li {
+  padding: 5px;
+  background-color: #104747;
+  border-bottom: 1px solid #8f8c8a48;
+  letter-spacing: 1px;
+  color: azure;
+}
+.toggleAddTask form .showExamples ul li img {
+  margin: 10px;
+  vertical-align: middle;
+  width: 40px;
+  height: auto;
+}
+.toggleAddTask form .showExamples ul li:hover {
+  background-color: rgba(26, 155, 155, 0.959);
+  cursor: pointer;
+  transition: 0.3s linear;
+}
+.toggleAddTask form .timePlan {
+  margin: 10px 0 20px 0;
+  display: inline-flex;
+  align-items: center;
+  float: center;
+  width: 100%;
+}
+.toggleAddTask form .timePlan label {
+  margin: 5px 10px 5px 0;
+}
+.toggleAddTask form .timePlan #startTime {
+  margin-right: 10px;
+}
+.toggleAddTask form .timePlan input[type=time] {
+  background-color: #8f8c8a48;
+  border-radius: 10px;
+  vertical-align: middle;
+  border: none;
+  height: 30px;
+}
+.toggleAddTask form #buttTypePlans {
+  align-content: center;
+  width: auto;
+  position: relative;
+  margin: 10px 0;
+  text-align: center;
+}
+.toggleAddTask form #buttTypePlans span {
+  display: inline-flex;
+}
+.toggleAddTask form #buttTypePlans #repetitively, .toggleAddTask form #buttTypePlans #onetime, .toggleAddTask form #buttTypePlans #specificdays {
+  background-color: #104747;
+  color: azure;
+  letter-spacing: 2px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px #8f8c8a48;
+}
+.toggleAddTask form #buttTypePlans #repetitively:hover, .toggleAddTask form #buttTypePlans #onetime:hover, .toggleAddTask form #buttTypePlans #specificdays:hover {
+  background-color: #ff5100;
+  box-shadow: 2px 2px 15px #8f8c8a48;
+  color: #104747;
+  cursor: pointer;
+  transition: 0.1s ease-in;
+}
+.toggleAddTask form .repetType {
+  padding: 10px;
+  width: 100%;
+  height: auto;
+}
+.toggleAddTask form .repetType label, .toggleAddTask form .repetType input {
+  display: inline-flex;
+  padding: 5px;
+}
+.toggleAddTask form .repetType summary {
+  padding: 10px 0;
+}
+.toggleAddTask form .onetimeType {
+  padding: 10px;
+}
+.toggleAddTask form .onetimeType label {
+  padding-right: 10px;
+}
+.toggleAddTask form .specificdaysType {
+  padding: 10px;
+}
+.toggleAddTask form .specificdaysType #buttSpecDays {
+  font-size: 22px;
+}
+.toggleAddTask form .specificdaysType #buttSpecDays:hover {
+  color: #ff5100;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+.toggleAddTask form .specificdaysType ul {
+  margin: 0 auto;
+  width: 400px;
+  height: auto;
+  max-height: 200px;
+  overflow: auto;
+  display: grid;
+  text-align: center;
+}
+.toggleAddTask form .specificdaysType ul li {
+  padding: 10px;
+}
+.toggleAddTask form #buttSaveTask, .toggleAddTask form #buttCancelTask {
+  float: right;
+  padding: 15px;
+  margin: 10px;
+  background-color: #104747;
+  border-radius: 50px;
+  border: 3px solid rgba(6, 39, 39, 0.966);
+  font-family: "Hashi Regular";
+  font-size: 16px;
+  color: azure;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+.toggleAddTask form #buttSaveTask:hover, .toggleAddTask form #buttCancelTask:hover {
+  background-color: seagreen;
+  cursor: pointer;
+  border-color: beige;
+  opacity: 1;
+  transition: 0.2s ease-in-out;
+}
+
+aside {
+  height: 100%;
+  width: 20%;
+  display: grid;
+}
+aside i {
+  font-size: 8rem;
+  color: #dfe0df;
+  margin: 0 auto;
+  float: right;
+}
+
+content {
+  display: flex;
+}
+content section {
+  color: #590500;
+  width: 60%;
+  min-height: 400px;
+  height: 100%;
+  border: 10px solid #5e3e2b;
+  box-shadow: 0px 0px 12px #8f8c8a48;
+  border-radius: 20px;
+  background-image: url("../../images/white-wall.jpg");
+  background-size: cover;
+  display: grid;
+  padding: 0;
+  margin: 0;
+}
+content section .row {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #8f8c8a48;
+  box-shadow: 0 2px 5px #8f8c8a48;
+}
+content section .row .totalHourTask, content section .row .descrTask {
+  padding: 20px;
+}
+content section .row .totalHourTask {
+  background-color: transparent;
+  width: 15%;
+  font-family: "Hashi Regular";
+  font-size: 20px;
+  text-align: center;
+}
+content section .row .totalHourTask .nbHours {
+  font-family: "Livvic Bold";
+  font-size: 40px;
+  letter-spacing: 2px;
+}
+content section .row .descrTask {
+  font-family: "Hashi Regular";
+  font-size: 22px;
+  width: 100%;
+}
+content section .row .descrTask img {
+  vertical-align: middle;
+}
+content section .row .descrTask text {
+  text-transform: uppercase;
+  margin-left: 20px;
+  letter-spacing: 1px;
+}
+content section .row .descrTask .titleTask #editTask {
+  float: right;
+  color: darkred;
+  text-shadow: 2px 2px 10px #636262, -2px -2px 2px #8f8c8a48;
+  font-family: "Cabin Sketch";
+  font-size: 26px;
+}
+content section .row .descrTask .titleTask #editTask i {
+  font-size: 1.5rem;
+}
+content section .row .descrTask .titleTask #editTask:hover {
+  color: #c41f1f;
+  text-shadow: 1px 1px 8px rgba(139, 0, 0, 0.452);
+  cursor: pointer;
+}
+content section .row .descrTask .showHours {
+  padding: 10px;
+}
+content section .row .descrTask .showHours ul {
+  list-style: none;
+}
+content section .row .descrTask .showHours ul li {
+  background-color: #dfe0df;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 3px solid #8f8c8a48;
+  border-radius: 10px;
+  color: #a98600;
+}
+content section .row .descrTask .showHours ul li:hover {
+  background-color: #ebd9d0;
+  transition: 0.5s linear;
+}
+content section .row .descrTask .showHours ul li i {
+  float: right;
+  font-size: 2.8rem;
+  vertical-align: middle;
+  margin-top: -9px;
+  color: #ffa387;
+}
+content section .row .descrTask .showHours ul li i:hover {
+  color: #007e3f;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+content section #firstRow .totalHourTask {
+  border-radius: 10px 0 0 0;
+  margin-top: -0.3px;
+}
+content section #lastRow {
+  border-bottom: none;
+}
+content section #lastRow .totalHourTask {
+  border-radius: 0 0 0 10px;
+  margin-bottom: -0.5px;
+}
+
+.rateTasks {
+  width: 100%;
+  height: auto;
+  align-content: center;
+  display: flexbox;
+  margin: 0 auto;
+  text-align: center;
+  font-family: "Livvic Bold";
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  color: #590500;
+}
+.rateTasks .progressAllTasks {
+  width: 50%;
+  height: auto;
+  margin: 40px auto;
+  background-image: url("../../images/gradient2.jpg");
+  display: grid;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 80px 16px 80px 16px;
+  border: 0.5px solid #8f8c8a48;
+  box-shadow: 5px 5px 30px #8f8c8a48;
+}
+.rateTasks .currStr, .rateTasks .tasksFinPerDay {
+  display: inline-block;
+  width: 30%;
+  height: auto;
+  margin: 10px 20px;
+}
+.rateTasks .progressAllTasks, .rateTasks .currStr, .rateTasks .tasksFinPerDay {
+  padding: 50px;
+  text-align: justify;
+}
+.rateTasks .progressAllTasks #progTotalNb, .rateTasks .currStr #progTotalNb, .rateTasks .tasksFinPerDay #progTotalNb {
+  font-family: "Hashi Regular";
+  font-size: 54px;
+  text-shadow: 2px 2px 2px #8f8c8a48, -1px -1px 1px #8f8c8a48;
+}
+.rateTasks .currStr {
+  background-image: url("../../images/background.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 80px 16px 80px 16px;
+  border: 0.5px solid #8f8c8a48;
+  box-shadow: 5px 5px 30px #8f8c8a48;
+}
+.rateTasks .tasksFinPerDay {
+  background-image: url("../../images/background.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 80px 16px 80px 16px;
+  border: 0.5px solid #8f8c8a48;
+  box-shadow: 5px 5px 30px #8f8c8a48;
+}
+
+.deleteMessage {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+  text-align: center;
+  color: #590500;
+  text-shadow: 1px 1px 1px rgba(240, 255, 255, 0.616), -1px -1px 1px rgba(240, 255, 255, 0.384);
+  font-family: "Hashi Regular";
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+.deleteMessage button {
+  display: inline;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  background-color: #590500;
+  padding: 20px 20px;
+  color: azure;
+  border-radius: 20%;
+  font-size: 18px;
+  font-family: "Hashi Regular";
+  border: none;
+  letter-spacing: 2px;
+  box-shadow: 2px 2px 2px #8f8c8a48;
+}
+.deleteMessage button:hover {
+  background-color: #ff5100;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px #8f8c8a48, -2px -2px 2px #8f8c8a48;
+}
+
+footer {
+  text-align: center;
+  width: 100%;
+  height: 60px;
+  padding: 20px 0 10px 0;
+  margin: 80px 0 0 0;
+  border-top: 1px solid #8f8c8a48;
+  background-color: rgba(160, 81, 45, 0.116);
+  font-family: "Livvic Bold";
+  color: rgba(61, 7, 7, 0.63);
+  letter-spacing: 1px;
+}

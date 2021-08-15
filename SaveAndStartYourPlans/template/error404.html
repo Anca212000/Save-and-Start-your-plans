@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/login.min.css') }}">
+</head>
+<body style="margin:10% 0">
+  
+    <h1 style="font-size:10vw;text-align:center;">404</h1>
+    <h1 style="text-align:center;">Oops! Permission denied for this page. Please be sure to login first.</h1><br>
+    <a href="{{ url_for('auth.login') }}" style="color:maroon;"><h3 style="text-align:center;"> Click Here </a> To go to the Login Page</h3>
+  
+</body>
+</html>
